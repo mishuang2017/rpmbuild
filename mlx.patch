@@ -1,6 +1,6 @@
-From 97a44179c88d69662be7e9a7237e213fb775cd9f Mon Sep 17 00:00:00 2001
+From 3c59d3254cb8f16dfe4967a6849faee56dd28ce1 Mon Sep 17 00:00:00 2001
 From: Chris Mi <chrism@mellanox.com>
-Date: Sun, 21 Oct 2018 21:39:27 -0400
+Date: Wed, 24 Oct 2018 22:32:44 -0400
 Subject: [PATCH] mlx
 
 ---
@@ -247,7 +247,7 @@ Subject: [PATCH] mlx
  drivers/net/ethernet/mellanox/mlx5/core/eq.c       |  544 ++-
  drivers/net/ethernet/mellanox/mlx5/core/eswitch.c  |  616 ++--
  drivers/net/ethernet/mellanox/mlx5/core/eswitch.h  |  209 +-
- .../ethernet/mellanox/mlx5/core/eswitch_offloads.c |  754 ++--
+ .../ethernet/mellanox/mlx5/core/eswitch_offloads.c |  756 ++--
  .../net/ethernet/mellanox/mlx5/core/fpga/Makefile  |    1 +
  drivers/net/ethernet/mellanox/mlx5/core/fpga/cmd.c |  238 ++
  drivers/net/ethernet/mellanox/mlx5/core/fpga/cmd.h |   91 +
@@ -261,9 +261,9 @@ Subject: [PATCH] mlx
  drivers/net/ethernet/mellanox/mlx5/core/fpga/sdk.h |  212 ++
  drivers/net/ethernet/mellanox/mlx5/core/fs_cmd.c   |  398 +-
  drivers/net/ethernet/mellanox/mlx5/core/fs_cmd.h   |   81 +-
- drivers/net/ethernet/mellanox/mlx5/core/fs_core.c  | 1578 +++++---
+ drivers/net/ethernet/mellanox/mlx5/core/fs_core.c  | 1599 +++++---
  drivers/net/ethernet/mellanox/mlx5/core/fs_core.h  |   75 +-
- .../net/ethernet/mellanox/mlx5/core/fs_counters.c  |  229 +-
+ .../net/ethernet/mellanox/mlx5/core/fs_counters.c  |  240 +-
  drivers/net/ethernet/mellanox/mlx5/core/fw.c       |  339 +-
  drivers/net/ethernet/mellanox/mlx5/core/health.c   |  107 +-
  .../net/ethernet/mellanox/mlx5/core/ipoib/Makefile |    1 +
@@ -281,7 +281,7 @@ Subject: [PATCH] mlx
  drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h |   95 +
  .../net/ethernet/mellanox/mlx5/core/lib/vxlan.c    |  230 ++
  .../net/ethernet/mellanox/mlx5/core/lib/vxlan.h    |   64 +
- drivers/net/ethernet/mellanox/mlx5/core/main.c     |  404 +-
+ drivers/net/ethernet/mellanox/mlx5/core/main.c     |  411 ++-
  .../net/ethernet/mellanox/mlx5/core/mlx5_core.h    |   70 +-
  drivers/net/ethernet/mellanox/mlx5/core/mr.c       |   21 +-
  .../net/ethernet/mellanox/mlx5/core/pagealloc.c    |    5 +-
@@ -413,7 +413,7 @@ Subject: [PATCH] mlx
  include/linux/mlx5/doorbell.h                      |    6 +-
  include/linux/mlx5/driver.h                        |  478 ++-
  include/linux/mlx5/eswitch.h                       |   59 +
- include/linux/mlx5/fs.h                            |   50 +-
+ include/linux/mlx5/fs.h                            |   57 +-
  include/linux/mlx5/mlx5_ifc.h                      | 1146 +++++-
  include/linux/mlx5/mlx5_ifc_fpga.h                 |  538 +++
  include/linux/mlx5/port.h                          |   26 +
@@ -681,7 +681,7 @@ Subject: [PATCH] mlx
  sound/usb/6fire/pcm.c                              |   10 +-
  sound/usb/line6/capture.c                          |    4 +-
  sound/usb/line6/playback.c                         |    4 +-
- 677 files changed, 44645 insertions(+), 37394 deletions(-)
+ 677 files changed, 44672 insertions(+), 37415 deletions(-)
  create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/accel/Makefile
  create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/accel/accel.h
  create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/accel/ipsec.c
@@ -28092,7 +28092,7 @@ index 4d5a10b..1e88400 100644
 +
  #endif /* __MLX5_EN_STATS_H__ */
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_tc.c b/drivers/net/ethernet/mellanox/mlx5/core/en_tc.c
-index 27b65b3..e763c3e 100644
+index 27b65b3..24cdf0b 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/en_tc.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_tc.c
 @@ -42,23 +42,62 @@
@@ -28752,9 +28752,9 @@ index 27b65b3..e763c3e 100644
 -		.action = action,
 -		.flow_tag = flow_tag,
 +		.action = attr->action,
-+		.has_flow_tag = true,
 +		.flow_tag = attr->flow_tag,
  		.encap_id = 0,
++		.flags    = FLOW_ACT_HAS_TAG | FLOW_ACT_NO_APPEND,
  	};
  	struct mlx5_fc *counter = NULL;
  	struct mlx5_flow_handle *rule;
@@ -34553,7 +34553,7 @@ index d192d6f..3d8661f 100644
 +
  #endif /* __MLX5_ESWITCH_H__ */
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-index d111ceb..3028e8d 100644
+index d111ceb..3f63760 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
 @@ -48,28 +48,54 @@ mlx5_eswitch_add_offloaded_rule(struct mlx5_eswitch *esw,
@@ -34561,8 +34561,9 @@ index d111ceb..3028e8d 100644
  				struct mlx5_esw_flow_attr *attr)
  {
 -	struct mlx5_flow_destination dest[2] = {};
+-	struct mlx5_flow_act flow_act = {0};
 +	struct mlx5_flow_destination dest[MLX5_MAX_FLOW_FWD_VPORTS + 1] = {};
- 	struct mlx5_flow_act flow_act = {0};
++	struct mlx5_flow_act flow_act = { .flags = FLOW_ACT_NO_APPEND, };
 +	struct mlx5_flow_table *ft = NULL;
  	struct mlx5_fc *counter = NULL;
  	struct mlx5_flow_handle *rule;
@@ -34650,12 +34651,12 @@ index d111ceb..3028e8d 100644
 -		flow_act.encap_id = attr->encap->encap_id;
 +	if (flow_act.action & MLX5_FLOW_CONTEXT_ACTION_MOD_HDR)
 +		flow_act.modify_id = attr->mod_hdr_id;
-+
-+	if (flow_act.action & MLX5_FLOW_CONTEXT_ACTION_ENCAP)
-+		flow_act.encap_id = attr->encap_id;
  
 -	rule = mlx5_add_flow_rules((struct mlx5_flow_table *)esw->fdb_table.fdb,
 -				   spec, &flow_act, dest, i);
++	if (flow_act.action & MLX5_FLOW_CONTEXT_ACTION_ENCAP)
++		flow_act.encap_id = attr->encap_id;
++
 +	rule = mlx5_add_flow_rules(ft, spec, &flow_act, dest, i);
  	if (IS_ERR(rule))
 -		mlx5_fc_destroy(esw->dev, counter);
@@ -34677,7 +34678,7 @@ index d111ceb..3028e8d 100644
 +			  struct mlx5_esw_flow_attr *attr)
 +{
 +	struct mlx5_flow_destination dest[MLX5_MAX_FLOW_FWD_VPORTS + 1] = {};
-+	struct mlx5_flow_act flow_act = {0};
++	struct mlx5_flow_act flow_act = { .flags = FLOW_ACT_NO_APPEND, };
 +	struct mlx5_flow_handle *rule;
 +	void *misc;
 +	int i;
@@ -37687,7 +37688,7 @@ index 0000000..82405ed
 +#endif /* __MLX5_FPGA_CORE_H__ */
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/fpga/ipsec.c b/drivers/net/ethernet/mellanox/mlx5/core/fpga/ipsec.c
 new file mode 100644
-index 0000000..5645a4f
+index 0000000..28aa8c9
 --- /dev/null
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/fpga/ipsec.c
 @@ -0,0 +1,1527 @@
@@ -38343,7 +38344,7 @@ index 0000000..5645a4f
 +	    (match_criteria_enable &
 +	     ~(MLX5_MATCH_OUTER_HEADERS | MLX5_MATCH_MISC_PARAMETERS)) ||
 +	    (flow_act->action & ~(MLX5_FLOW_CONTEXT_ACTION_ENCRYPT | MLX5_FLOW_CONTEXT_ACTION_ALLOW)) ||
-+	     flow_act->has_flow_tag)
++	     (flow_act->flags & FLOW_ACT_HAS_TAG))
 +		return false;
 +
 +	return true;
@@ -40490,7 +40491,7 @@ index 8fad806..6228ba7 100644
 +
  #endif
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c b/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
-index ded27bb..7ad0b6f 100644
+index ded27bb..50c8b70 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
 @@ -32,10 +32,14 @@
@@ -40543,7 +40544,7 @@ index ded27bb..7ad0b6f 100644
  				ADD_MULTIPLE_PRIO(KERNEL_NIC_NUM_PRIOS,
  						  KERNEL_NIC_PRIO_NUM_LEVELS))),
  		ADD_PRIO(0, BY_PASS_MIN_LEVEL, 0,
-@@ -143,37 +151,65 @@ static struct init_tree_node {
+@@ -143,37 +151,62 @@ static struct init_tree_node {
  	}
  };
  
@@ -40592,10 +40593,10 @@ index ded27bb..7ad0b6f 100644
 +static void del_sw_hw_rule(struct fs_node *node);
  static bool mlx5_flow_dests_cmp(struct mlx5_flow_destination *d1,
  				struct mlx5_flow_destination *d2);
+-static struct mlx5_flow_rule *
+-find_flow_rule(struct fs_fte *fte,
+-	       struct mlx5_flow_destination *dest);
 +static void cleanup_root_ns(struct mlx5_flow_root_namespace *root_ns);
- static struct mlx5_flow_rule *
- find_flow_rule(struct fs_fte *fte,
- 	       struct mlx5_flow_destination *dest);
  
  static void tree_init_node(struct fs_node *node,
 -			   unsigned int refcount,
@@ -40623,7 +40624,7 @@ index ded27bb..7ad0b6f 100644
  	node->parent = parent;
  
  	/* Parent is the root */
-@@ -183,58 +219,78 @@ static void tree_add_node(struct fs_node *node, struct fs_node *parent)
+@@ -183,58 +216,78 @@ static void tree_add_node(struct fs_node *node, struct fs_node *parent)
  		node->root = parent->root;
  }
  
@@ -40723,7 +40724,7 @@ index ded27bb..7ad0b6f 100644
  		return -EEXIST;
  	}
  	tree_put_node(node);
-@@ -254,73 +310,19 @@ static struct fs_prio *find_prio(struct mlx5_flow_namespace *ns,
+@@ -254,73 +307,19 @@ static struct fs_prio *find_prio(struct mlx5_flow_namespace *ns,
  	return NULL;
  }
  
@@ -40803,7 +40804,7 @@ index ded27bb..7ad0b6f 100644
  static struct mlx5_flow_root_namespace *find_root(struct fs_node *node)
  {
  	struct fs_node *root;
-@@ -337,6 +339,15 @@ static struct mlx5_flow_root_namespace *find_root(struct fs_node *node)
+@@ -337,6 +336,15 @@ static struct mlx5_flow_root_namespace *find_root(struct fs_node *node)
  	return container_of(ns, struct mlx5_flow_root_namespace, ns);
  }
  
@@ -40819,7 +40820,7 @@ index ded27bb..7ad0b6f 100644
  static inline struct mlx5_core_dev *get_dev(struct fs_node *node)
  {
  	struct mlx5_flow_root_namespace *root = find_root(node);
-@@ -346,48 +357,64 @@ static inline struct mlx5_core_dev *get_dev(struct fs_node *node)
+@@ -346,48 +354,64 @@ static inline struct mlx5_core_dev *get_dev(struct fs_node *node)
  	return NULL;
  }
  
@@ -40900,7 +40901,7 @@ index ded27bb..7ad0b6f 100644
  	if (rule->sw_action == MLX5_FLOW_CONTEXT_ACTION_FWD_NEXT_PRIO) {
  		mutex_lock(&rule->dest_attr.ft->lock);
  		list_del(&rule->next_ft);
-@@ -396,30 +423,33 @@ static void del_rule(struct fs_node *node)
+@@ -396,30 +420,33 @@ static void del_rule(struct fs_node *node)
  
  	if (rule->dest_attr.type == MLX5_FLOW_DESTINATION_TYPE_COUNTER  &&
  	    --fte->dests_size) {
@@ -40940,7 +40941,7 @@ index ded27bb..7ad0b6f 100644
  	struct mlx5_flow_table *ft;
  	struct mlx5_flow_group *fg;
  	struct mlx5_core_dev *dev;
-@@ -430,20 +460,39 @@ static void del_fte(struct fs_node *node)
+@@ -430,20 +457,39 @@ static void del_fte(struct fs_node *node)
  	fs_get_obj(fg, fte->node.parent);
  	fs_get_obj(ft, fg->node.parent);
  
@@ -40989,7 +40990,7 @@ index ded27bb..7ad0b6f 100644
  	struct mlx5_flow_group *fg;
  	struct mlx5_flow_table *ft;
  	struct mlx5_core_dev *dev;
-@@ -451,55 +500,147 @@ static void del_flow_group(struct fs_node *node)
+@@ -451,55 +497,147 @@ static void del_flow_group(struct fs_node *node)
  	fs_get_obj(fg, node);
  	fs_get_obj(ft, fg->node.parent);
  	dev = get_dev(&ft->node);
@@ -41158,7 +41159,7 @@ index ded27bb..7ad0b6f 100644
  	return fg;
  }
  
-@@ -509,10 +650,17 @@ static struct mlx5_flow_table *alloc_flow_table(int level, u16 vport, int max_ft
+@@ -509,10 +647,17 @@ static struct mlx5_flow_table *alloc_flow_table(int level, u16 vport, int max_ft
  						u32 flags)
  {
  	struct mlx5_flow_table *ft;
@@ -41177,7 +41178,7 @@ index ded27bb..7ad0b6f 100644
  
  	ft->level = level;
  	ft->node.type = FS_TYPE_FLOW_TABLE;
-@@ -598,15 +746,14 @@ static int connect_fts_in_prio(struct mlx5_core_dev *dev,
+@@ -598,15 +743,14 @@ static int connect_fts_in_prio(struct mlx5_core_dev *dev,
  			       struct fs_prio *prio,
  			       struct mlx5_flow_table *ft)
  {
@@ -41195,7 +41196,7 @@ index ded27bb..7ad0b6f 100644
  		if (err) {
  			mlx5_core_warn(dev, "Failed to modify flow table %d\n",
  				       iter->id);
-@@ -640,8 +787,10 @@ static int update_root_ft_create(struct mlx5_flow_table *ft, struct fs_prio
+@@ -640,8 +784,10 @@ static int update_root_ft_create(struct mlx5_flow_table *ft, struct fs_prio
  				 *prio)
  {
  	struct mlx5_flow_root_namespace *root = find_root(&prio->node);
@@ -41207,7 +41208,7 @@ index ded27bb..7ad0b6f 100644
  
  	if (root->root_ft)
  		min_level = root->root_ft->level;
-@@ -649,10 +798,24 @@ static int update_root_ft_create(struct mlx5_flow_table *ft, struct fs_prio
+@@ -649,10 +795,24 @@ static int update_root_ft_create(struct mlx5_flow_table *ft, struct fs_prio
  	if (ft->level >= min_level)
  		return 0;
  
@@ -41235,7 +41236,7 @@ index ded27bb..7ad0b6f 100644
  	else
  		root->root_ft = ft;
  
-@@ -662,6 +825,7 @@ static int update_root_ft_create(struct mlx5_flow_table *ft, struct fs_prio
+@@ -662,6 +822,7 @@ static int update_root_ft_create(struct mlx5_flow_table *ft, struct fs_prio
  static int _mlx5_modify_rule_destination(struct mlx5_flow_rule *rule,
  					 struct mlx5_flow_destination *dest)
  {
@@ -41243,7 +41244,7 @@ index ded27bb..7ad0b6f 100644
  	struct mlx5_flow_table *ft;
  	struct mlx5_flow_group *fg;
  	struct fs_fte *fte;
-@@ -669,18 +833,17 @@ static int _mlx5_modify_rule_destination(struct mlx5_flow_rule *rule,
+@@ -669,18 +830,17 @@ static int _mlx5_modify_rule_destination(struct mlx5_flow_rule *rule,
  	int err = 0;
  
  	fs_get_obj(fte, rule->node.parent);
@@ -41268,7 +41269,7 @@ index ded27bb..7ad0b6f 100644
  
  	return err;
  }
-@@ -712,7 +875,7 @@ static int connect_fwd_rules(struct mlx5_core_dev *dev,
+@@ -712,7 +872,7 @@ static int connect_fwd_rules(struct mlx5_core_dev *dev,
  			     struct mlx5_flow_table *new_next_ft,
  			     struct mlx5_flow_table *old_next_ft)
  {
@@ -41277,7 +41278,7 @@ index ded27bb..7ad0b6f 100644
  	struct mlx5_flow_rule *iter;
  	int err = 0;
  
-@@ -777,18 +940,16 @@ static void list_add_flow_table(struct mlx5_flow_table *ft,
+@@ -777,18 +937,16 @@ static void list_add_flow_table(struct mlx5_flow_table *ft,
  }
  
  static struct mlx5_flow_table *__mlx5_create_flow_table(struct mlx5_flow_namespace *ns,
@@ -41301,7 +41302,7 @@ index ded27bb..7ad0b6f 100644
  
  	if (!root) {
  		pr_err("mlx5: flow steering failed to find root of namespace\n");
-@@ -796,50 +957,51 @@ static struct mlx5_flow_table *__mlx5_create_flow_table(struct mlx5_flow_namespa
+@@ -796,50 +954,51 @@ static struct mlx5_flow_table *__mlx5_create_flow_table(struct mlx5_flow_namespa
  	}
  
  	mutex_lock(&root->chain_lock);
@@ -41368,7 +41369,7 @@ index ded27bb..7ad0b6f 100644
  free_ft:
  	kfree(ft);
  unlock_root:
-@@ -848,44 +1010,56 @@ unlock_root:
+@@ -848,44 +1007,56 @@ unlock_root:
  }
  
  struct mlx5_flow_table *mlx5_create_flow_table(struct mlx5_flow_namespace *ns,
@@ -41444,7 +41445,7 @@ index ded27bb..7ad0b6f 100644
  	if (IS_ERR(ft))
  		return ft;
  
-@@ -896,52 +1070,41 @@ struct mlx5_flow_table *mlx5_create_auto_grouped_flow_table(struct mlx5_flow_nam
+@@ -896,52 +1067,41 @@ struct mlx5_flow_table *mlx5_create_auto_grouped_flow_table(struct mlx5_flow_nam
  }
  EXPORT_SYMBOL(mlx5_create_auto_grouped_flow_table);
  
@@ -41521,7 +41522,7 @@ index ded27bb..7ad0b6f 100644
  
  	return fg;
  }
-@@ -966,8 +1129,7 @@ static struct mlx5_flow_handle *alloc_handle(int num_rules)
+@@ -966,8 +1126,7 @@ static struct mlx5_flow_handle *alloc_handle(int num_rules)
  {
  	struct mlx5_flow_handle *handle;
  
@@ -41531,7 +41532,7 @@ index ded27bb..7ad0b6f 100644
  	if (!handle)
  		return NULL;
  
-@@ -982,7 +1144,7 @@ static void destroy_flow_handle(struct fs_fte *fte,
+@@ -982,7 +1141,7 @@ static void destroy_flow_handle(struct fs_fte *fte,
  				int i)
  {
  	for (; --i >= 0;) {
@@ -41540,16 +41541,22 @@ index ded27bb..7ad0b6f 100644
  			fte->dests_size--;
  			list_del(&handle->rule[i]->node.list);
  			kfree(handle->rule[i]);
-@@ -1013,7 +1175,7 @@ create_flow_handle(struct fs_fte *fte,
- 		if (dest) {
- 			rule = find_flow_rule(fte, dest + i);
- 			if (rule) {
+@@ -1010,14 +1169,6 @@ create_flow_handle(struct fs_fte *fte,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	do {
+-		if (dest) {
+-			rule = find_flow_rule(fte, dest + i);
+-			if (rule) {
 -				atomic_inc(&rule->node.refcount);
-+				refcount_inc(&rule->node.refcount);
- 				goto rule_found;
- 			}
- 		}
-@@ -1026,7 +1188,7 @@ create_flow_handle(struct fs_fte *fte,
+-				goto rule_found;
+-			}
+-		}
+-
+ 		*new_rule = true;
+ 		rule = alloc_rule(dest + i);
+ 		if (!rule)
+@@ -1026,7 +1177,7 @@ create_flow_handle(struct fs_fte *fte,
  		/* Add dest to dests list- we need flow tables to be in the
  		 * end of the list for forward to next prio rules.
  		 */
@@ -41558,7 +41565,15 @@ index ded27bb..7ad0b6f 100644
  		if (dest &&
  		    dest[i].type != MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE)
  			list_add(&rule->node.list, &fte->node.children);
-@@ -1058,6 +1220,7 @@ add_rule_fte(struct fs_fte *fte,
+@@ -1039,7 +1190,6 @@ create_flow_handle(struct fs_fte *fte,
+ 				MLX5_FLOW_DESTINATION_TYPE_COUNTER;
+ 			*modify_mask |= type ? count : dst;
+ 		}
+-rule_found:
+ 		handle->rule[i] = rule;
+ 	} while (++i < dest_num);
+ 
+@@ -1058,6 +1208,7 @@ add_rule_fte(struct fs_fte *fte,
  	     int dest_num,
  	     bool update_action)
  {
@@ -41566,7 +41581,7 @@ index ded27bb..7ad0b6f 100644
  	struct mlx5_flow_handle *handle;
  	struct mlx5_flow_table *ft;
  	int modify_mask = 0;
-@@ -1073,16 +1236,19 @@ add_rule_fte(struct fs_fte *fte,
+@@ -1073,16 +1224,19 @@ add_rule_fte(struct fs_fte *fte,
  		modify_mask |= BIT(MLX5_SET_FTE_MODIFY_ENABLE_MASK_ACTION);
  
  	fs_get_obj(ft, fg->node.parent);
@@ -41590,7 +41605,7 @@ index ded27bb..7ad0b6f 100644
  
  out:
  	return handle;
-@@ -1092,64 +1258,17 @@ free_handle:
+@@ -1092,64 +1246,17 @@ free_handle:
  	return ERR_PTR(err);
  }
  
@@ -41658,7 +41673,7 @@ index ded27bb..7ad0b6f 100644
  	if (ft->autogroup.num_groups < ft->autogroup.required_groups)
  		/* We save place for flow groups in addition to max types */
  		group_size = ft->max_fte / (ft->autogroup.required_groups + 1);
-@@ -1167,25 +1286,66 @@ static struct mlx5_flow_group *create_autogroup(struct mlx5_flow_table *ft,
+@@ -1167,25 +1274,66 @@ static struct mlx5_flow_group *create_autogroup(struct mlx5_flow_table *ft,
  		prev = &fg->node.list;
  	}
  
@@ -41737,7 +41752,7 @@ index ded27bb..7ad0b6f 100644
  }
  
  static bool mlx5_flow_dests_cmp(struct mlx5_flow_destination *d1,
-@@ -1193,11 +1353,13 @@ static bool mlx5_flow_dests_cmp(struct mlx5_flow_destination *d1,
+@@ -1193,102 +1341,91 @@ static bool mlx5_flow_dests_cmp(struct mlx5_flow_destination *d1,
  {
  	if (d1->type == d2->type) {
  		if ((d1->type == MLX5_FLOW_DESTINATION_TYPE_VPORT &&
@@ -41753,12 +41768,14 @@ index ded27bb..7ad0b6f 100644
  			return true;
  	}
  
-@@ -1216,79 +1378,80 @@ static struct mlx5_flow_rule *find_flow_rule(struct fs_fte *fte,
- 	return NULL;
+ 	return false;
  }
  
+-static struct mlx5_flow_rule *find_flow_rule(struct fs_fte *fte,
+-					     struct mlx5_flow_destination *dest)
 +static bool check_conflicting_actions(u32 action1, u32 action2)
-+{
+ {
+-	struct mlx5_flow_rule *rule;
 +	u32 xored_actions = action1 ^ action2;
 +
 +	/* if one rule only wants to count, it's ok */
@@ -41778,16 +41795,20 @@ index ded27bb..7ad0b6f 100644
 +
 +	return false;
 +}
-+
+ 
+-	list_for_each_entry(rule, &fte->node.children, node.list) {
+-		if (mlx5_flow_dests_cmp(&rule->dest_attr, dest))
+-			return rule;
 +static int check_conflicting_ftes(struct fs_fte *fte, const struct mlx5_flow_act *flow_act)
 +{
 +	if (check_conflicting_actions(flow_act->action, fte->action.action)) {
 +		mlx5_core_warn(get_dev(&fte->node),
 +			       "Found two FTEs with conflicting actions\n");
 +		return -EEXIST;
-+	}
+ 	}
+-	return NULL;
 +
-+	if (flow_act->has_flow_tag &&
++	if ((flow_act->flags & FLOW_ACT_HAS_TAG) &&
 +	    fte->action.flow_tag != flow_act->flow_tag) {
 +		mlx5_core_warn(get_dev(&fte->node),
 +			       "FTE flow tag %u already exists with different flow tag %u\n",
@@ -41797,8 +41818,8 @@ index ded27bb..7ad0b6f 100644
 +	}
 +
 +	return 0;
-+}
-+
+ }
+ 
  static struct mlx5_flow_handle *add_rule_fg(struct mlx5_flow_group *fg,
  					    u32 *match_value,
  					    struct mlx5_flow_act *flow_act,
@@ -41830,10 +41851,7 @@ index ded27bb..7ad0b6f 100644
 -				handle = ERR_PTR(-EEXIST);
 -				goto unlock_fte;
 -			}
-+	ret = check_conflicting_ftes(fte, flow_act);
-+	if (ret)
-+		return ERR_PTR(ret);
- 
+-
 -			fte->action |= flow_act->action;
 -			handle = add_rule_fte(fte, fg, dest, dest_num,
 -					      old_action != flow_act->action);
@@ -41850,6 +41868,10 @@ index ded27bb..7ad0b6f 100644
 -	if (fg->num_ftes >= fg->max_ftes) {
 -		handle = ERR_PTR(-ENOSPC);
 -		goto unlock_fg;
++	ret = check_conflicting_ftes(fte, flow_act);
++	if (ret)
++		return ERR_PTR(ret);
++
 +	old_action = fte->action.action;
 +	fte->action.action |= flow_act->action;
 +	handle = add_rule_fte(fte, fg, dest, dest_num,
@@ -41881,10 +41903,9 @@ index ded27bb..7ad0b6f 100644
 -add_rules:
  	for (i = 0; i < handle->num_rules; i++) {
 -		if (atomic_read(&handle->rule[i]->node.refcount) == 1)
-+		if (refcount_read(&handle->rule[i]->node.refcount) == 1) {
- 			tree_add_node(&handle->rule[i]->node, &fte->node);
-+			trace_mlx5_fs_add_rule(handle->rule[i]);
-+		}
+-			tree_add_node(&handle->rule[i]->node, &fte->node);
++		tree_add_node(&handle->rule[i]->node, &fte->node);
++		trace_mlx5_fs_add_rule(handle->rule[i]);
  	}
 -unlock_fte:
 -	unlock_ref_node(&fte->node);
@@ -41893,7 +41914,7 @@ index ded27bb..7ad0b6f 100644
  	return handle;
  }
  
-@@ -1336,6 +1499,199 @@ static bool dest_is_valid(struct mlx5_flow_destination *dest,
+@@ -1336,6 +1473,206 @@ static bool dest_is_valid(struct mlx5_flow_destination *dest,
  	return true;
  }
  
@@ -42027,6 +42048,8 @@ index ded27bb..7ad0b6f 100644
 +
 +search_again_locked:
 +	version = matched_fgs_get_version(match_head);
++	if (flow_act->flags & FLOW_ACT_NO_APPEND)
++		goto skip_search;
 +	/* Try to find a fg that already contains a matching fte */
 +	list_for_each_entry(iter, match_head, list) {
 +		struct fs_fte *fte_tmp;
@@ -42042,6 +42065,11 @@ index ded27bb..7ad0b6f 100644
 +		kmem_cache_free(steering->ftes_cache, fte);
 +		return rule;
 +	}
++
++skip_search:
++	/* No group with matching fte found, or we skipped the search.
++	 * Try to add a new fte to any matching fg.
++	 */
 +
 +	/* Check the ft version, for case that new flow group
 +	 * was added while the fgs weren't locked
@@ -42093,7 +42121,7 @@ index ded27bb..7ad0b6f 100644
  static struct mlx5_flow_handle *
  _mlx5_add_flow_rules(struct mlx5_flow_table *ft,
  		     struct mlx5_flow_spec *spec,
-@@ -1344,47 +1700,98 @@ _mlx5_add_flow_rules(struct mlx5_flow_table *ft,
+@@ -1344,47 +1681,98 @@ _mlx5_add_flow_rules(struct mlx5_flow_table *ft,
  		     int dest_num)
  
  {
@@ -42218,7 +42246,7 @@ index ded27bb..7ad0b6f 100644
  }
  
  static bool fwd_next_prio_supported(struct mlx5_flow_table *ft)
-@@ -1398,10 +1805,10 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
+@@ -1398,10 +1786,10 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
  		    struct mlx5_flow_spec *spec,
  		    struct mlx5_flow_act *flow_act,
  		    struct mlx5_flow_destination *dest,
@@ -42231,7 +42259,7 @@ index ded27bb..7ad0b6f 100644
  	struct mlx5_flow_table *next_ft = NULL;
  	struct mlx5_flow_handle *handle = NULL;
  	u32 sw_action = flow_act->action;
-@@ -1411,7 +1818,7 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
+@@ -1411,7 +1799,7 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
  	if (flow_act->action == MLX5_FLOW_CONTEXT_ACTION_FWD_NEXT_PRIO) {
  		if (!fwd_next_prio_supported(ft))
  			return ERR_PTR(-EOPNOTSUPP);
@@ -42240,7 +42268,7 @@ index ded27bb..7ad0b6f 100644
  			return ERR_PTR(-EINVAL);
  		mutex_lock(&root->chain_lock);
  		next_ft = find_next_chained_ft(prio);
-@@ -1419,7 +1826,7 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
+@@ -1419,7 +1807,7 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
  			gen_dest.type = MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE;
  			gen_dest.ft = next_ft;
  			dest = &gen_dest;
@@ -42249,7 +42277,7 @@ index ded27bb..7ad0b6f 100644
  			flow_act->action = MLX5_FLOW_CONTEXT_ACTION_FWD_DEST;
  		} else {
  			mutex_unlock(&root->chain_lock);
-@@ -1427,7 +1834,7 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
+@@ -1427,7 +1815,7 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
  		}
  	}
  
@@ -42258,7 +42286,7 @@ index ded27bb..7ad0b6f 100644
  
  	if (sw_action == MLX5_FLOW_CONTEXT_ACTION_FWD_NEXT_PRIO) {
  		if (!IS_ERR_OR_NULL(handle) &&
-@@ -1469,22 +1876,43 @@ static struct mlx5_flow_table *find_next_ft(struct mlx5_flow_table *ft)
+@@ -1469,22 +1857,43 @@ static struct mlx5_flow_table *find_next_ft(struct mlx5_flow_table *ft)
  static int update_root_ft_destroy(struct mlx5_flow_table *ft)
  {
  	struct mlx5_flow_root_namespace *root = find_root(&ft->node);
@@ -42309,7 +42337,7 @@ index ded27bb..7ad0b6f 100644
  	return 0;
  }
  
-@@ -1574,16 +2002,6 @@ struct mlx5_flow_namespace *mlx5_get_flow_namespace(struct mlx5_core_dev *dev,
+@@ -1574,16 +1983,6 @@ struct mlx5_flow_namespace *mlx5_get_flow_namespace(struct mlx5_core_dev *dev,
  			return &steering->fdb_root_ns->ns;
  		else
  			return NULL;
@@ -42326,7 +42354,7 @@ index ded27bb..7ad0b6f 100644
  	case MLX5_FLOW_NAMESPACE_SNIFFER_RX:
  		if (steering->sniffer_rx_root_ns)
  			return &steering->sniffer_rx_root_ns->ns;
-@@ -1594,6 +2012,11 @@ struct mlx5_flow_namespace *mlx5_get_flow_namespace(struct mlx5_core_dev *dev,
+@@ -1594,6 +1993,11 @@ struct mlx5_flow_namespace *mlx5_get_flow_namespace(struct mlx5_core_dev *dev,
  			return &steering->sniffer_tx_root_ns->ns;
  		else
  			return NULL;
@@ -42338,7 +42366,7 @@ index ded27bb..7ad0b6f 100644
  	default:
  		return NULL;
  	}
-@@ -1614,6 +2037,33 @@ struct mlx5_flow_namespace *mlx5_get_flow_namespace(struct mlx5_core_dev *dev,
+@@ -1614,6 +2018,33 @@ struct mlx5_flow_namespace *mlx5_get_flow_namespace(struct mlx5_core_dev *dev,
  }
  EXPORT_SYMBOL(mlx5_get_flow_namespace);
  
@@ -42372,7 +42400,7 @@ index ded27bb..7ad0b6f 100644
  static struct fs_prio *fs_create_prio(struct mlx5_flow_namespace *ns,
  				      unsigned int prio, int num_levels)
  {
-@@ -1624,7 +2074,7 @@ static struct fs_prio *fs_create_prio(struct mlx5_flow_namespace *ns,
+@@ -1624,7 +2055,7 @@ static struct fs_prio *fs_create_prio(struct mlx5_flow_namespace *ns,
  		return ERR_PTR(-ENOMEM);
  
  	fs_prio->node.type = FS_TYPE_PRIO;
@@ -42381,7 +42409,7 @@ index ded27bb..7ad0b6f 100644
  	tree_add_node(&fs_prio->node, &ns->node);
  	fs_prio->num_levels = num_levels;
  	fs_prio->prio = prio;
-@@ -1650,7 +2100,7 @@ static struct mlx5_flow_namespace *fs_create_namespace(struct fs_prio *prio)
+@@ -1650,7 +2081,7 @@ static struct mlx5_flow_namespace *fs_create_namespace(struct fs_prio *prio)
  		return ERR_PTR(-ENOMEM);
  
  	fs_init_namespace(ns);
@@ -42390,7 +42418,7 @@ index ded27bb..7ad0b6f 100644
  	tree_add_node(&ns->node, &prio->node);
  	list_add_tail(&ns->node.list, &prio->node.children);
  
-@@ -1757,25 +2207,33 @@ static int init_root_tree(struct mlx5_flow_steering *steering,
+@@ -1757,25 +2188,33 @@ static int init_root_tree(struct mlx5_flow_steering *steering,
  	return 0;
  }
  
@@ -42429,7 +42457,7 @@ index ded27bb..7ad0b6f 100644
  	tree_add_node(&ns->node, NULL);
  
  	return root_ns;
-@@ -1827,12 +2285,18 @@ static void set_prio_attrs(struct mlx5_flow_root_namespace *root_ns)
+@@ -1827,12 +2266,18 @@ static void set_prio_attrs(struct mlx5_flow_root_namespace *root_ns)
  static int create_anchor_flow_table(struct mlx5_flow_steering *steering)
  {
  	struct mlx5_flow_namespace *ns = NULL;
@@ -42449,7 +42477,7 @@ index ded27bb..7ad0b6f 100644
  	if (IS_ERR(ft)) {
  		mlx5_core_err(steering->dev, "Failed to create last anchor flow table");
  		return PTR_ERR(ft);
-@@ -1842,24 +2306,27 @@ static int create_anchor_flow_table(struct mlx5_flow_steering *steering)
+@@ -1842,24 +2287,27 @@ static int create_anchor_flow_table(struct mlx5_flow_steering *steering)
  
  static int init_root_ns(struct mlx5_flow_steering *steering)
  {
@@ -42486,7 +42514,7 @@ index ded27bb..7ad0b6f 100644
  }
  
  static void clean_tree(struct fs_node *node)
-@@ -1868,8 +2335,10 @@ static void clean_tree(struct fs_node *node)
+@@ -1868,8 +2316,10 @@ static void clean_tree(struct fs_node *node)
  		struct fs_node *iter;
  		struct fs_node *temp;
  
@@ -42497,7 +42525,7 @@ index ded27bb..7ad0b6f 100644
  		tree_remove_node(node);
  	}
  }
-@@ -1882,20 +2351,48 @@ static void cleanup_root_ns(struct mlx5_flow_root_namespace *root_ns)
+@@ -1882,20 +2332,48 @@ static void cleanup_root_ns(struct mlx5_flow_root_namespace *root_ns)
  	clean_tree(&root_ns->ns.node);
  }
  
@@ -42550,7 +42578,7 @@ index ded27bb..7ad0b6f 100644
  	kfree(steering);
  }
  
-@@ -1941,7 +2438,7 @@ static int init_fdb_root_ns(struct mlx5_flow_steering *steering)
+@@ -1941,7 +2419,7 @@ static int init_fdb_root_ns(struct mlx5_flow_steering *steering)
  	if (!steering->fdb_root_ns)
  		return -ENOMEM;
  
@@ -42559,7 +42587,7 @@ index ded27bb..7ad0b6f 100644
  	if (IS_ERR(prio))
  		goto out_err;
  
-@@ -1958,31 +2455,97 @@ out_err:
+@@ -1958,31 +2436,97 @@ out_err:
  	return PTR_ERR(prio);
  }
  
@@ -42666,7 +42694,7 @@ index ded27bb..7ad0b6f 100644
  	return PTR_ERR_OR_ZERO(prio);
  }
  
-@@ -1991,9 +2554,6 @@ int mlx5_init_fs(struct mlx5_core_dev *dev)
+@@ -1991,9 +2535,6 @@ int mlx5_init_fs(struct mlx5_core_dev *dev)
  	struct mlx5_flow_steering *steering;
  	int err = 0;
  
@@ -42676,7 +42704,7 @@ index ded27bb..7ad0b6f 100644
  	err = mlx5_init_fc_stats(dev);
  	if (err)
  		return err;
-@@ -2004,26 +2564,39 @@ int mlx5_init_fs(struct mlx5_core_dev *dev)
+@@ -2004,26 +2545,39 @@ int mlx5_init_fs(struct mlx5_core_dev *dev)
  	steering->dev = dev;
  	dev->priv.steering = steering;
  
@@ -42720,7 +42748,7 @@ index ded27bb..7ad0b6f 100644
  			if (err)
  				goto err;
  		}
-@@ -2041,8 +2614,93 @@ int mlx5_init_fs(struct mlx5_core_dev *dev)
+@@ -2041,8 +2595,93 @@ int mlx5_init_fs(struct mlx5_core_dev *dev)
  			goto err;
  	}
  
@@ -42997,7 +43025,7 @@ index 8e668c6..a06f83c 100644
 +
  #endif
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c b/drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c
-index 7431f63..dd7ce68 100644
+index 7431f63..e224e74 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c
 @@ -38,6 +38,8 @@
@@ -43025,7 +43053,7 @@ index 7431f63..dd7ce68 100644
   *   - spawn thread to do the actual del
   *
   * - dump (user context)
-@@ -69,37 +73,49 @@
+@@ -69,37 +73,61 @@
   *   elapsed, the thread will actually query the hardware.
   */
  
@@ -43073,6 +43101,18 @@ index 7431f63..dd7ce68 100644
  }
  
 -static struct rb_node *mlx5_fc_stats_query(struct mlx5_core_dev *dev,
++static void mlx5_fc_stats_remove(struct mlx5_core_dev *dev,
++				 struct mlx5_fc *counter)
++{
++	struct mlx5_fc_stats *fc_stats = &dev->priv.fc_stats;
++
++	list_del(&counter->list);
++
++	spin_lock(&fc_stats->counters_idr_lock);
++	idr_remove_ext(&fc_stats->counters_idr, counter->id);
++	spin_unlock(&fc_stats->counters_idr_lock);
++}
++
 +/* The function returns the last counter that was queried so the caller
 + * function can continue calling it till all counters are queried.
 + */
@@ -43097,7 +43137,7 @@ index 7431f63..dd7ce68 100644
  
  	/* first id must be aligned to 4 when using bulk query */
  	afirst_id = first->id & ~0x3;
-@@ -123,14 +139,16 @@ static struct rb_node *mlx5_fc_stats_query(struct mlx5_core_dev *dev,
+@@ -123,14 +151,16 @@ static struct rb_node *mlx5_fc_stats_query(struct mlx5_core_dev *dev,
  		goto out;
  	}
  
@@ -43117,7 +43157,7 @@ index 7431f63..dd7ce68 100644
  
  		mlx5_cmd_fc_bulk_get(dev, b,
  				     counter->id, &packets, &bytes);
-@@ -146,7 +164,14 @@ static struct rb_node *mlx5_fc_stats_query(struct mlx5_core_dev *dev,
+@@ -146,7 +176,14 @@ static struct rb_node *mlx5_fc_stats_query(struct mlx5_core_dev *dev,
  out:
  	mlx5_cmd_fc_bulk_free(b);
  
@@ -43133,11 +43173,15 @@ index 7431f63..dd7ce68 100644
  }
  
  static void mlx5_fc_stats_work(struct work_struct *work)
-@@ -154,53 +179,35 @@ static void mlx5_fc_stats_work(struct work_struct *work)
+@@ -154,53 +191,38 @@ static void mlx5_fc_stats_work(struct work_struct *work)
  	struct mlx5_core_dev *dev = container_of(work, struct mlx5_core_dev,
  						 priv.fc_stats.work.work);
  	struct mlx5_fc_stats *fc_stats = &dev->priv.fc_stats;
-+	struct llist_node *tmplist = llist_del_all(&fc_stats->addlist);
++	/* Take dellist first to ensure that counters cannot be deleted before
++	 * they are inserted.
++	 */
++	struct llist_node *dellist = llist_del_all(&fc_stats->dellist);
++	struct llist_node *addlist = llist_del_all(&fc_stats->addlist);
 +	struct mlx5_fc *counter = NULL, *last = NULL, *tmp;
  	unsigned long now = jiffies;
 -	struct mlx5_fc *counter = NULL;
@@ -43151,35 +43195,34 @@ index 7431f63..dd7ce68 100644
 -
 -	if (!list_empty(&tmplist) || !RB_EMPTY_ROOT(&fc_stats->counters))
 -		queue_delayed_work(fc_stats->wq, &fc_stats->work, MLX5_FC_STATS_PERIOD);
- 
+-
 -	spin_unlock(&fc_stats->addlist_lock);
-+	if (tmplist || !list_empty(&fc_stats->counters))
-+		queue_delayed_work(fc_stats->wq, &fc_stats->work,
-+				   fc_stats->sampling_interval);
- 
+-
 -	list_for_each_entry(counter, &tmplist, list)
 -		mlx5_fc_stats_insert(&fc_stats->counters, counter);
-+	llist_for_each_entry(counter, tmplist, addlist)
-+		mlx5_fc_stats_insert(dev, counter);
- 
+-
 -	node = rb_first(&fc_stats->counters);
 -	while (node) {
 -		counter = rb_entry(node, struct mlx5_fc, node);
--
+ 
 -		node = rb_next(node);
--
++	if (addlist || !list_empty(&fc_stats->counters))
++		queue_delayed_work(fc_stats->wq, &fc_stats->work,
++				   fc_stats->sampling_interval);
+ 
 -		if (counter->deleted) {
 -			rb_erase(&counter->node, &fc_stats->counters);
--
++	llist_for_each_entry(counter, addlist, addlist)
++		mlx5_fc_stats_insert(dev, counter);
+ 
 -			mlx5_cmd_fc_free(dev, counter->id);
--
++	llist_for_each_entry_safe(counter, tmp, dellist, dellist) {
++		mlx5_fc_stats_remove(dev, counter);
+ 
 -			kfree(counter);
 -			continue;
 -		}
-+	tmplist = llist_del_all(&fc_stats->dellist);
-+	llist_for_each_entry_safe(counter, tmp, tmplist, dellist) {
-+		list_del(&counter->list);
- 
+-
 -		last = counter;
 +		mlx5_free_fc(dev, counter);
  	}
@@ -43193,20 +43236,20 @@ index 7431f63..dd7ce68 100644
 -	node = rb_first(&fc_stats->counters);
 -	while (node) {
 -		counter = rb_entry(node, struct mlx5_fc, node);
+-
+-		node = mlx5_fc_stats_query(dev, counter, last->id);
+-	}
 +	counter = list_first_entry(&fc_stats->counters, struct mlx5_fc,
 +				   list);
 +	while (counter)
 +		counter = mlx5_fc_stats_query(dev, counter, last->id);
  
--		node = mlx5_fc_stats_query(dev, counter, last->id);
--	}
--
 -	fc_stats->next_query = now + MLX5_FC_STATS_PERIOD;
 +	fc_stats->next_query = now + fc_stats->sampling_interval;
  }
  
  struct mlx5_fc *mlx5_fc_create(struct mlx5_core_dev *dev, bool aging)
-@@ -212,29 +219,47 @@ struct mlx5_fc *mlx5_fc_create(struct mlx5_core_dev *dev, bool aging)
+@@ -212,29 +234,47 @@ struct mlx5_fc *mlx5_fc_create(struct mlx5_core_dev *dev, bool aging)
  	counter = kzalloc(sizeof(*counter), GFP_KERNEL);
  	if (!counter)
  		return ERR_PTR(-ENOMEM);
@@ -43257,15 +43300,11 @@ index 7431f63..dd7ce68 100644
  
  void mlx5_fc_destroy(struct mlx5_core_dev *dev, struct mlx5_fc *counter)
  {
-@@ -244,27 +269,34 @@ void mlx5_fc_destroy(struct mlx5_core_dev *dev, struct mlx5_fc *counter)
+@@ -244,27 +284,30 @@ void mlx5_fc_destroy(struct mlx5_core_dev *dev, struct mlx5_fc *counter)
  		return;
  
  	if (counter->aging) {
 -		counter->deleted = true;
-+		spin_lock(&fc_stats->counters_idr_lock);
-+		idr_remove_ext(&fc_stats->counters_idr, counter->id);
-+		spin_unlock(&fc_stats->counters_idr_lock);
-+
 +		llist_add(&counter->dellist, &fc_stats->dellist);
  		mod_delayed_work(fc_stats->wq, &fc_stats->work, 0);
  		return;
@@ -43298,7 +43337,7 @@ index 7431f63..dd7ce68 100644
  	INIT_DELAYED_WORK(&fc_stats->work, mlx5_fc_stats_work);
  
  	return 0;
-@@ -273,35 +305,30 @@ int mlx5_init_fc_stats(struct mlx5_core_dev *dev)
+@@ -273,35 +316,30 @@ int mlx5_init_fc_stats(struct mlx5_core_dev *dev)
  void mlx5_cleanup_fc_stats(struct mlx5_core_dev *dev)
  {
  	struct mlx5_fc_stats *fc_stats = &dev->priv.fc_stats;
@@ -43322,15 +43361,15 @@ index 7431f63..dd7ce68 100644
 -	node = rb_first(&fc_stats->counters);
 -	while (node) {
 -		counter = rb_entry(node, struct mlx5_fc, node);
+-
+-		node = rb_next(node);
 +	idr_destroy_ext(&fc_stats->counters_idr);
  
--		node = rb_next(node);
+-		rb_erase(&counter->node, &fc_stats->counters);
 +	tmplist = llist_del_all(&fc_stats->addlist);
 +	llist_for_each_entry_safe(counter, tmp, tmplist, addlist)
 +		mlx5_free_fc(dev, counter);
  
--		rb_erase(&counter->node, &fc_stats->counters);
--
 -		mlx5_cmd_fc_free(dev, counter->id);
 +	list_for_each_entry_safe(counter, tmp, &fc_stats->counters, list)
 +		mlx5_free_fc(dev, counter);
@@ -43347,7 +43386,7 @@ index 7431f63..dd7ce68 100644
  
  void mlx5_fc_query_cached(struct mlx5_fc *counter,
  			  u64 *bytes, u64 *packets, u64 *lastuse)
-@@ -317,3 +344,21 @@ void mlx5_fc_query_cached(struct mlx5_fc *counter,
+@@ -317,3 +355,21 @@ void mlx5_fc_query_cached(struct mlx5_fc *counter,
  	counter->lastbytes = c.bytes;
  	counter->lastpackets = c.packets;
  }
@@ -47245,7 +47284,7 @@ index 0000000..8fb0eb0
 +
 +#endif /* __MLX5_VXLAN_H__ */
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-index ddd2635..ed6c45e 100644
+index ddd2635..7a1f6cb 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
 @@ -47,18 +47,25 @@
@@ -47651,7 +47690,7 @@ index ddd2635..ed6c45e 100644
  
  err_eq_cleanup:
  	mlx5_eq_cleanup(dev);
-@@ -951,15 +1037,19 @@ out:
+@@ -951,18 +1037,28 @@ out:
  
  static void mlx5_cleanup_once(struct mlx5_core_dev *dev)
  {
@@ -47674,14 +47713,25 @@ index ddd2635..ed6c45e 100644
  	mlx5_eq_cleanup(dev);
  }
  
-@@ -979,11 +1069,24 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
++char *jd_version = "1.1";
++/*
++ * branch jd-1
++ * commit: 6c6917c2e9cf915779d0a01fc7c2c6271db8d6e4
++ */
++
+ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+ 			 bool boot)
+ {
+@@ -978,12 +1074,26 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+ 
  	dev_info(&pdev->dev, "firmware version: %d.%d.%d\n", fw_rev_maj(dev),
  		 fw_rev_min(dev), fw_rev_sub(dev));
- 
++	dev_info(&pdev->dev, "jd version: %s\n", jd_version);
++
 +	/* Only PFs hold the relevant PCIe information for this query */
 +	if (mlx5_core_is_pf(dev))
 +		pcie_print_link_status(dev->pdev);
-+
+ 
  	/* on load removing any previous indication of internal error, device is
  	 * up
  	 */
@@ -47699,7 +47749,7 @@ index ddd2635..ed6c45e 100644
  	err = mlx5_cmd_init(dev);
  	if (err) {
  		dev_err(&pdev->dev, "Failed initializing command interface, aborting\n");
-@@ -994,7 +1097,7 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -994,7 +1104,7 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  	if (err) {
  		dev_err(&dev->pdev->dev, "Firmware over %d MS in initializing state, aborting\n",
  			FW_INIT_TIMEOUT_MILI);
@@ -47708,7 +47758,7 @@ index ddd2635..ed6c45e 100644
  	}
  
  	err = mlx5_core_enable_hca(dev, 0);
-@@ -1045,7 +1148,7 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1045,7 +1155,7 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		goto reclaim_boot_pages;
  	}
  
@@ -47717,7 +47767,7 @@ index ddd2635..ed6c45e 100644
  	if (err) {
  		dev_err(&pdev->dev, "init hca failed\n");
  		goto err_pagealloc_stop;
-@@ -1061,33 +1164,43 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1061,33 +1171,43 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		goto err_stop_poll;
  	}
  
@@ -47770,7 +47820,7 @@ index ddd2635..ed6c45e 100644
  	}
  
  	err = mlx5_irq_set_affinity_hints(dev);
-@@ -1096,15 +1209,29 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1096,15 +1216,29 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		goto err_affinity_hints;
  	}
  
@@ -47803,7 +47853,7 @@ index ddd2635..ed6c45e 100644
  
  	err = mlx5_sriov_attach(dev);
  	if (err) {
-@@ -1122,7 +1249,6 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1122,7 +1256,6 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		}
  	}
  
@@ -47811,7 +47861,7 @@ index ddd2635..ed6c45e 100644
  	set_bit(MLX5_INTERFACE_STATE_UP, &dev->intf_state);
  out:
  	mutex_unlock(&dev->intf_state_mutex);
-@@ -1133,32 +1259,38 @@ err_reg_dev:
+@@ -1133,32 +1266,38 @@ err_reg_dev:
  	mlx5_sriov_detach(dev);
  
  err_sriov:
@@ -47858,7 +47908,7 @@ index ddd2635..ed6c45e 100644
  	if (mlx5_cmd_teardown_hca(dev)) {
  		dev_err(&dev->pdev->dev, "tear_down_hca failed, skip cleanup\n");
  		goto out_err;
-@@ -1189,10 +1321,10 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1189,10 +1328,10 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  	int err = 0;
  
  	if (cleanup)
@@ -47871,7 +47921,7 @@ index ddd2635..ed6c45e 100644
  		dev_warn(&dev->pdev->dev, "%s: interface is down, NOP\n",
  			 __func__);
  		if (cleanup)
-@@ -1200,22 +1332,24 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1200,22 +1339,24 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		goto out;
  	}
  
@@ -47902,7 +47952,7 @@ index ddd2635..ed6c45e 100644
  	err = mlx5_cmd_teardown_hca(dev);
  	if (err) {
  		dev_err(&dev->pdev->dev, "tear_down_hca failed, skip cleanup\n");
-@@ -1227,8 +1361,6 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1227,8 +1368,6 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  	mlx5_cmd_cleanup(dev);
  
  out:
@@ -47911,7 +47961,7 @@ index ddd2635..ed6c45e 100644
  	mutex_unlock(&dev->intf_state_mutex);
  	return err;
  }
-@@ -1240,11 +1372,13 @@ struct mlx5_core_event_handler {
+@@ -1240,11 +1379,13 @@ struct mlx5_core_event_handler {
  };
  
  static const struct devlink_ops mlx5_devlink_ops = {
@@ -47926,7 +47976,7 @@ index ddd2635..ed6c45e 100644
  #endif
  };
  
-@@ -1277,10 +1411,27 @@ static int init_one(struct pci_dev *pdev,
+@@ -1277,10 +1418,27 @@ static int init_one(struct pci_dev *pdev,
  	spin_lock_init(&priv->ctx_lock);
  	mutex_init(&dev->pci_status_mutex);
  	mutex_init(&dev->intf_state_mutex);
@@ -47955,7 +48005,7 @@ index ddd2635..ed6c45e 100644
  	}
  
  	err = mlx5_health_init(dev);
-@@ -1297,9 +1448,7 @@ static int init_one(struct pci_dev *pdev,
+@@ -1297,9 +1455,7 @@ static int init_one(struct pci_dev *pdev,
  		goto clean_health;
  	}
  
@@ -47966,7 +48016,7 @@ index ddd2635..ed6c45e 100644
  
  	err = devlink_register(devlink, &pdev->dev);
  	if (err)
-@@ -1315,8 +1464,11 @@ clean_health:
+@@ -1315,8 +1471,11 @@ clean_health:
  	mlx5_health_cleanup(dev);
  close_pci:
  	mlx5_pci_close(dev, priv);
@@ -47979,7 +48029,7 @@ index ddd2635..ed6c45e 100644
  	devlink_free(devlink);
  
  	return err;
-@@ -1340,7 +1492,9 @@ static void remove_one(struct pci_dev *pdev)
+@@ -1340,7 +1499,9 @@ static void remove_one(struct pci_dev *pdev)
  	mlx5_pagealloc_cleanup(dev);
  	mlx5_health_cleanup(dev);
  	mlx5_pci_close(dev, priv);
@@ -47990,7 +48040,7 @@ index ddd2635..ed6c45e 100644
  	devlink_free(devlink);
  }
  
-@@ -1352,7 +1506,7 @@ static pci_ers_result_t mlx5_pci_err_detected(struct pci_dev *pdev,
+@@ -1352,7 +1513,7 @@ static pci_ers_result_t mlx5_pci_err_detected(struct pci_dev *pdev,
  
  	dev_info(&pdev->dev, "%s was called\n", __func__);
  
@@ -47999,7 +48049,7 @@ index ddd2635..ed6c45e 100644
  	mlx5_unload_one(dev, priv, false);
  	/* In case of kernel call drain the health wq */
  	if (state) {
-@@ -1439,29 +1593,74 @@ static const struct pci_error_handlers mlx5_err_handler = {
+@@ -1439,29 +1600,74 @@ static const struct pci_error_handlers mlx5_err_handler = {
  	.resume		= mlx5_pci_resume
  };
  
@@ -48082,7 +48132,7 @@ index ddd2635..ed6c45e 100644
  	{ 0, }
  };
  
-@@ -1504,7 +1703,10 @@ static int __init init(void)
+@@ -1504,7 +1710,10 @@ static int __init init(void)
  {
  	int err;
  
@@ -55610,7 +55660,7 @@ index 0000000..e2380a3
 +				    int vport, u32 sqn);
 +#endif
 diff --git a/include/linux/mlx5/fs.h b/include/linux/mlx5/fs.h
-index 949b24b..1f3604c 100644
+index 949b24b..9a0b3ef 100644
 --- a/include/linux/mlx5/fs.h
 +++ b/include/linux/mlx5/fs.h
 @@ -40,6 +40,8 @@
@@ -55678,7 +55728,7 @@ index 949b24b..1f3604c 100644
  struct mlx5_flow_table *
  mlx5_create_vport_flow_table(struct mlx5_flow_namespace *ns,
  			     int prio,
-@@ -130,12 +147,28 @@ struct mlx5_flow_group *
+@@ -130,12 +147,35 @@ struct mlx5_flow_group *
  mlx5_create_flow_group(struct mlx5_flow_table *ft, u32 *in);
  void mlx5_destroy_flow_group(struct mlx5_flow_group *fg);
  
@@ -55690,24 +55740,31 @@ index 949b24b..1f3604c 100644
 +
 +#define MLX5_FS_VLAN_DEPTH	2
 +
++enum {
++	FLOW_ACT_HAS_TAG   = BIT(0),
++	FLOW_ACT_NO_APPEND = BIT(1),
++};
++
  struct mlx5_flow_act {
  	u32 action;
-+	bool has_flow_tag;
  	u32 flow_tag;
  	u32 encap_id;
 +	u32 modify_id;
 +	uintptr_t esp_id;
 +	struct mlx5_fs_vlan vlan[MLX5_FS_VLAN_DEPTH];
++	u32 flags;
  };
  
 +#define MLX5_DECLARE_FLOW_ACT(name) \
-+	struct mlx5_flow_act name = {MLX5_FLOW_CONTEXT_ACTION_FWD_DEST,\
-+				     MLX5_FS_DEFAULT_FLOW_TAG, 0, 0}
++	struct mlx5_flow_act name = { .action = MLX5_FLOW_CONTEXT_ACTION_FWD_DEST,\
++				      .flow_tag = MLX5_FS_DEFAULT_FLOW_TAG, \
++				      .modify_id = 0, \
++				      .flags =  0, }
 +
  /* Single destination per rule.
   * Group ID is implied by the match criteria.
   */
-@@ -144,7 +177,7 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
+@@ -144,7 +184,7 @@ mlx5_add_flow_rules(struct mlx5_flow_table *ft,
  		    struct mlx5_flow_spec *spec,
  		    struct mlx5_flow_act *flow_act,
  		    struct mlx5_flow_destination *dest,
@@ -55716,7 +55773,7 @@ index 949b24b..1f3604c 100644
  void mlx5_del_flow_rules(struct mlx5_flow_handle *fr);
  
  int mlx5_modify_rule_destination(struct mlx5_flow_handle *handler,
-@@ -156,5 +189,10 @@ struct mlx5_fc *mlx5_fc_create(struct mlx5_core_dev *dev, bool aging);
+@@ -156,5 +196,10 @@ struct mlx5_fc *mlx5_fc_create(struct mlx5_core_dev *dev, bool aging);
  void mlx5_fc_destroy(struct mlx5_core_dev *dev, struct mlx5_fc *counter);
  void mlx5_fc_query_cached(struct mlx5_fc *counter,
  			  u64 *bytes, u64 *packets, u64 *lastuse);

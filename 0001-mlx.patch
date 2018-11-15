@@ -1,6 +1,6 @@
-From faec5e8f0f2bdc1ec5fc8d9da082c3afaf3eb747 Mon Sep 17 00:00:00 2001
+From cd9badcae5b28d20a926194cc7ad0d89c39f9416 Mon Sep 17 00:00:00 2001
 From: Chris Mi <chrism@mellanox.com>
-Date: Tue, 30 Oct 2018 21:36:16 -0400
+Date: Thu, 15 Nov 2018 03:59:27 -0500
 Subject: [PATCH] mlx
 
 ---
@@ -208,7 +208,7 @@ Subject: [PATCH] mlx
  .../ethernet/mellanox/mlx5/core/diag/fw_tracer.c   |  947 +++++
  .../ethernet/mellanox/mlx5/core/diag/fw_tracer.h   |  175 +
  .../mellanox/mlx5/core/diag/fw_tracer_tracepoint.h |   78 +
- drivers/net/ethernet/mellanox/mlx5/core/en.h       |  996 +++--
+ drivers/net/ethernet/mellanox/mlx5/core/en.h       |  997 +++--
  .../net/ethernet/mellanox/mlx5/core/en/Makefile    |    1 +
  drivers/net/ethernet/mellanox/mlx5/core/en/fs.h    |  210 ++
  drivers/net/ethernet/mellanox/mlx5/core/en/port.c  |  237 ++
@@ -233,14 +233,14 @@ Subject: [PATCH] mlx
  drivers/net/ethernet/mellanox/mlx5/core/en_fs.c    |  666 +++-
  .../ethernet/mellanox/mlx5/core/en_fs_ethtool.c    |  615 +++-
  drivers/net/ethernet/mellanox/mlx5/core/en_main.c  | 3852 ++++++++++++--------
- drivers/net/ethernet/mellanox/mlx5/core/en_rep.c   | 1001 ++++-
+ drivers/net/ethernet/mellanox/mlx5/core/en_rep.c   | 1005 ++++-
  drivers/net/ethernet/mellanox/mlx5/core/en_rep.h   |  169 +
  drivers/net/ethernet/mellanox/mlx5/core/en_rx.c    | 1101 ++++--
  drivers/net/ethernet/mellanox/mlx5/core/en_rx_am.c |  330 --
  .../net/ethernet/mellanox/mlx5/core/en_selftest.c  |   38 +-
  drivers/net/ethernet/mellanox/mlx5/core/en_stats.c | 1312 +++++++
  drivers/net/ethernet/mellanox/mlx5/core/en_stats.h |  324 +-
- drivers/net/ethernet/mellanox/mlx5/core/en_tc.c    | 2517 +++++++++++--
+ drivers/net/ethernet/mellanox/mlx5/core/en_tc.c    | 2518 +++++++++++--
  drivers/net/ethernet/mellanox/mlx5/core/en_tc.h    |   45 +-
  drivers/net/ethernet/mellanox/mlx5/core/en_tx.c    |  600 +--
  drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c  |  134 +-
@@ -261,7 +261,7 @@ Subject: [PATCH] mlx
  drivers/net/ethernet/mellanox/mlx5/core/fpga/sdk.h |  212 ++
  drivers/net/ethernet/mellanox/mlx5/core/fs_cmd.c   |  398 +-
  drivers/net/ethernet/mellanox/mlx5/core/fs_cmd.h   |   81 +-
- drivers/net/ethernet/mellanox/mlx5/core/fs_core.c  | 1614 +++++---
+ drivers/net/ethernet/mellanox/mlx5/core/fs_core.c  | 1616 +++++---
  drivers/net/ethernet/mellanox/mlx5/core/fs_core.h  |   76 +-
  .../net/ethernet/mellanox/mlx5/core/fs_counters.c  |  240 +-
  drivers/net/ethernet/mellanox/mlx5/core/fw.c       |  339 +-
@@ -281,7 +281,7 @@ Subject: [PATCH] mlx
  drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h |   95 +
  .../net/ethernet/mellanox/mlx5/core/lib/vxlan.c    |  230 ++
  .../net/ethernet/mellanox/mlx5/core/lib/vxlan.h    |   64 +
- drivers/net/ethernet/mellanox/mlx5/core/main.c     |  411 ++-
+ drivers/net/ethernet/mellanox/mlx5/core/main.c     |  407 ++-
  .../net/ethernet/mellanox/mlx5/core/mlx5_core.h    |   70 +-
  drivers/net/ethernet/mellanox/mlx5/core/mr.c       |   21 +-
  .../net/ethernet/mellanox/mlx5/core/pagealloc.c    |    5 +-
@@ -476,7 +476,7 @@ Subject: [PATCH] mlx
  include/uapi/linux/if_link.h                       |    2 +
  include/uapi/linux/net_tstamp.h                    |    3 +
  include/uapi/linux/netlink.h                       |   17 +
- include/uapi/linux/pkt_cls.h                       |   82 +-
+ include/uapi/linux/pkt_cls.h                       |  116 +-
  include/uapi/linux/pkt_sched.h                     |   67 +-
  include/uapi/linux/psample.h                       |   35 +
  include/uapi/linux/rtnetlink.h                     |   39 +-
@@ -489,7 +489,7 @@ Subject: [PATCH] mlx
  include/uapi/linux/tc_act/tc_sample.h              |   26 +
  include/uapi/linux/tc_act/tc_skbedit.h             |    6 +
  include/uapi/linux/tc_act/tc_skbmod.h              |   39 +
- include/uapi/linux/tc_act/tc_tunnel_key.h          |    3 +
+ include/uapi/linux/tc_act/tc_tunnel_key.h          |   30 +
  include/uapi/linux/tc_act/tc_vlan.h                |    1 +
  include/uapi/rdma/mlx5-abi.h                       |   17 +
  kernel/debug/kdb/kdb_main.c                        |    2 +-
@@ -682,7 +682,7 @@ Subject: [PATCH] mlx
  sound/usb/6fire/pcm.c                              |   10 +-
  sound/usb/line6/capture.c                          |    4 +-
  sound/usb/line6/playback.c                         |    4 +-
- 678 files changed, 44894 insertions(+), 37464 deletions(-)
+ 678 files changed, 44958 insertions(+), 37465 deletions(-)
  create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/accel/Makefile
  create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/accel/accel.h
  create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/accel/ipsec.c
@@ -7960,7 +7960,7 @@ index 0000000..83f90e9
 +#define TRACE_INCLUDE_FILE fw_tracer_tracepoint
 +#include <trace/define_trace.h>
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-index 4c31ddc..a71f00e 100644
+index 4c31ddc..43dd8fa 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
 @@ -37,52 +37,87 @@
@@ -8863,7 +8863,7 @@ index 4c31ddc..a71f00e 100644
  	struct workqueue_struct    *wq;
  	struct work_struct         update_carrier_work;
  	struct work_struct         set_rx_mode_work;
-@@ -692,124 +620,198 @@ struct mlx5e_priv {
+@@ -692,124 +620,199 @@ struct mlx5e_priv {
  	struct mlx5_core_dev      *mdev;
  	struct net_device         *netdev;
  	struct mlx5e_stats         stats;
@@ -8883,6 +8883,7 @@ index 4c31ddc..a71f00e 100644
 +#ifdef CONFIG_MLX5_EN_IPSEC
 +	struct mlx5e_ipsec        *ipsec;
 +#endif
++	bool is_rep;
 +};
 +
 +struct mlx5e_profile {
@@ -9120,7 +9121,7 @@ index 4c31ddc..a71f00e 100644
  }
  
  static inline void mlx5e_cq_arm(struct mlx5e_cq *cq)
-@@ -817,18 +819,7 @@ static inline void mlx5e_cq_arm(struct mlx5e_cq *cq)
+@@ -817,18 +820,7 @@ static inline void mlx5e_cq_arm(struct mlx5e_cq *cq)
  	struct mlx5_core_cq *mcq;
  
  	mcq = &cq->mcq;
@@ -9140,7 +9141,7 @@ index 4c31ddc..a71f00e 100644
  }
  
  extern const struct ethtool_ops mlx5e_ethtool_ops;
-@@ -836,83 +827,88 @@ extern const struct ethtool_ops mlx5e_ethtool_ops;
+@@ -836,83 +828,88 @@ extern const struct ethtool_ops mlx5e_ethtool_ops;
  extern const struct dcbnl_rtnl_ops mlx5e_dcbnl_ops;
  int mlx5e_dcbnl_ieee_setets_core(struct mlx5e_priv *priv, struct ieee_ets *ets);
  void mlx5e_dcbnl_initialize(struct mlx5e_priv *priv);
@@ -22859,7 +22860,7 @@ index 0bfdc32..d1a493a 100644
  	mlx5_register_interface(&mlx5e_interface);
  }
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rep.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rep.c
-index 0129883..0512a11 100644
+index 0129883..9cb6572 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/en_rep.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rep.c
 @@ -34,10 +34,21 @@
@@ -23752,36 +23753,36 @@ index 0129883..0512a11 100644
 -		MLX5E_PARAMS_MINIMUM_LOG_SQ_SIZE;
 -	priv->params.rq_wq_type = MLX5_WQ_TYPE_LINKED_LIST;
 -	priv->params.log_rq_size = MLX5E_PARAMS_MINIMUM_LOG_RQ_SIZE;
--
--	priv->params.min_rx_wqes = mlx5_min_rx_wqes(priv->params.rq_wq_type,
--					    BIT(priv->params.log_rq_size));
--
--	priv->params.rx_am_enabled = MLX5_CAP_GEN(mdev, cq_moderation);
--	mlx5e_set_rx_cq_mode_params(&priv->params, cq_period_mode);
--
--	priv->params.tx_max_inline         = mlx5e_get_max_inline_cap(mdev);
--	priv->params.num_tc                = 1;
--
--	priv->params.lro_wqe_sz            =
--		MLX5E_PARAMS_DEFAULT_LRO_WQE_SZ;
 +	params->hard_mtu    = MLX5E_ETH_HARD_MTU;
 +	params->sw_mtu      = mtu;
 +	params->log_sq_size = MLX5E_REP_PARAMS_LOG_SQ_SIZE;
 +	params->rq_wq_type  = MLX5_WQ_TYPE_CYCLIC;
 +	params->log_rq_mtu_frames = MLX5E_PARAMS_MINIMUM_LOG_RQ_SIZE;
  
+-	priv->params.min_rx_wqes = mlx5_min_rx_wqes(priv->params.rq_wq_type,
+-					    BIT(priv->params.log_rq_size));
++	params->rx_dim_enabled = MLX5_CAP_GEN(mdev, cq_moderation);
++	mlx5e_set_rx_cq_mode_params(params, cq_period_mode);
+ 
+-	priv->params.rx_am_enabled = MLX5_CAP_GEN(mdev, cq_moderation);
+-	mlx5e_set_rx_cq_mode_params(&priv->params, cq_period_mode);
++	params->num_tc                = 1;
++	params->lro_wqe_sz            = MLX5E_PARAMS_DEFAULT_LRO_WQE_SZ;
+ 
+-	priv->params.tx_max_inline         = mlx5e_get_max_inline_cap(mdev);
+-	priv->params.num_tc                = 1;
+-
+-	priv->params.lro_wqe_sz            =
+-		MLX5E_PARAMS_DEFAULT_LRO_WQE_SZ;
+-
 -	priv->mdev                         = mdev;
 -	priv->netdev                       = netdev;
 -	priv->params.num_channels          = profile->max_nch(mdev);
 -	priv->profile                      = profile;
 -	priv->ppriv                        = ppriv;
-+	params->rx_dim_enabled = MLX5_CAP_GEN(mdev, cq_moderation);
-+	mlx5e_set_rx_cq_mode_params(params, cq_period_mode);
- 
+-
 -	mutex_init(&priv->state_lock);
-+	params->num_tc                = 1;
-+	params->lro_wqe_sz            = MLX5E_PARAMS_DEFAULT_LRO_WQE_SZ;
- 
+-
 -	INIT_DELAYED_WORK(&priv->update_stats_work, mlx5e_update_stats_work);
 +	mlx5_query_min_inline(mdev, &params->tx_min_inline_mode);
  }
@@ -23923,7 +23924,7 @@ index 0129883..0512a11 100644
  	.init			= mlx5e_init_rep,
  	.init_rx		= mlx5e_init_rep_rx,
  	.cleanup_rx		= mlx5e_cleanup_rep_rx,
-@@ -550,56 +1083,230 @@ static struct mlx5e_profile mlx5e_rep_profile = {
+@@ -550,56 +1083,234 @@ static struct mlx5e_profile mlx5e_rep_profile = {
  	.cleanup_tx		= mlx5e_cleanup_nic_tx,
  	.update_stats           = mlx5e_rep_update_stats,
  	.max_nch		= mlx5e_get_rep_max_num_channels,
@@ -23991,6 +23992,7 @@ index 0129883..0512a11 100644
 +	struct mlx5e_rep_priv *rpriv;
  	struct net_device *netdev;
 +	struct mlx5e_priv *upriv;
++	struct mlx5e_priv *priv;
  	int err;
  
 -	netdev = mlx5e_create_netdev(esw->dev, &mlx5e_rep_profile, rep);
@@ -24042,6 +24044,9 @@ index 0129883..0512a11 100644
 +		goto err_egdev_cleanup;
  	}
  
++	priv = netdev_priv(netdev);
++	priv->is_rep = true;
++
  	return 0;
  
 +err_egdev_cleanup:
@@ -28093,7 +28098,7 @@ index 4d5a10b..1e88400 100644
 +
  #endif /* __MLX5_EN_STATS_H__ */
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_tc.c b/drivers/net/ethernet/mellanox/mlx5/core/en_tc.c
-index 27b65b3..70fd70a 100644
+index 27b65b3..d73c2b3 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/en_tc.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_tc.c
 @@ -42,23 +42,62 @@
@@ -30015,9 +30020,6 @@ index 27b65b3..70fd70a 100644
 +{
 +	struct mlx5_core_dev *fmdev, *pmdev;
 +	u64 fsystem_guid, psystem_guid;
-+
-+	fmdev = priv->mdev;
-+	pmdev = peer_priv->mdev;
  
 -	if (!err && (flow->flags & MLX5E_TC_FLOW_ESWITCH) &&
 -	    rep->vport != FDB_UPLINK_VPORT) {
@@ -30029,10 +30031,13 @@ index 27b65b3..70fd70a 100644
 -			return -EOPNOTSUPP;
 -		}
 -	}
-+	mlx5_query_nic_vport_system_image_guid(fmdev, &fsystem_guid);
-+	mlx5_query_nic_vport_system_image_guid(pmdev, &psystem_guid);
++	fmdev = priv->mdev;
++	pmdev = peer_priv->mdev;
  
 -	return err;
++	mlx5_query_nic_vport_system_image_guid(fmdev, &fsystem_guid);
++	mlx5_query_nic_vport_system_image_guid(pmdev, &psystem_guid);
++
 +	return (fsystem_guid == psystem_guid);
  }
  
@@ -30293,12 +30298,12 @@ index 27b65b3..70fd70a 100644
 +	struct vxlanhdr *vxh = (struct vxlanhdr *)((char *)udp + sizeof(struct udphdr));
 +
 +	memset(buf, 0, encap_size);
- 
--	return encap_size;
++
 +	ether_addr_copy(eth->h_dest, h_dest);
 +	ether_addr_copy(eth->h_source, out_dev->dev_addr);
 +	eth->h_proto = htons(ETH_P_IPV6);
-+
+ 
+-	return encap_size;
 +	ip6_flow_hdr(ip6h, tos, 0);
 +	/* the HW fills up ipv6 payload len */
 +	ip6h->nexthdr     = IPPROTO_UDP;
@@ -30368,7 +30373,9 @@ index 27b65b3..70fd70a 100644
  	if (err)
 -		goto out;
 +		goto free_encap;
-+
+ 
+-	e->n = n;
+-	e->out_dev = *out_dev;
 +	/* used by mlx5e_detach_encap to lookup a neigh hash table
 +	 * entry in the neigh hash table when a user deletes a rule
 +	 */
@@ -30385,9 +30392,7 @@ index 27b65b3..70fd70a 100644
 +	err = mlx5e_rep_encap_entry_attach(netdev_priv(out_dev), e);
 +	if (err)
 +		goto free_encap;
- 
--	e->n = n;
--	e->out_dev = *out_dev;
++
 +	read_lock_bh(&n->lock);
 +	nud_state = n->nud_state;
 +	ether_addr_copy(e->h_dest, n->ha);
@@ -30771,10 +30776,10 @@ index 27b65b3..70fd70a 100644
 +		if (is_tcf_mirred_egress_redirect(a) || is_tcf_mirred_egress_mirror(a)) {
  			struct mlx5e_priv *out_priv;
 +			struct net_device *out_dev;
++
++			out_dev = tcf_mirred_dev(a);
  
 -			out_dev = __dev_get_by_index(dev_net(priv->netdev), ifindex);
-+			out_dev = tcf_mirred_dev(a);
-+
 +			if (attr->out_count >= MLX5_MAX_FLOW_FWD_VPORTS) {
 +				pr_err("can't support more than %d output ports, can't offload forwarding\n",
 +				       attr->out_count);
@@ -30815,7 +30820,7 @@ index 27b65b3..70fd70a 100644
  			} else {
  				pr_err("devices %s %s not on same switch HW, can't offload forwarding\n",
  				       priv->netdev->name, out_dev->name);
-@@ -971,182 +2744,254 @@ static int parse_tc_fdb_actions(struct mlx5e_priv *priv, struct tcf_exts *exts,
+@@ -971,182 +2744,255 @@ static int parse_tc_fdb_actions(struct mlx5e_priv *priv, struct tcf_exts *exts,
  				encap = true;
  			else
  				return -EOPNOTSUPP;
@@ -30889,7 +30894,8 @@ index 27b65b3..70fd70a 100644
 +	struct mlx5_eswitch *esw = priv->mdev->priv.eswitch;
 +	struct mlx5e_rep_priv *uplink_rpriv;
 +
-+	if (MLX5_VPORT_MANAGER(priv->mdev) && esw->mode == SRIOV_OFFLOADS) {
++	if (priv->is_rep ||
++	    (MLX5_VPORT_MANAGER(priv->mdev) && esw->mode == SRIOV_OFFLOADS)) {
 +		uplink_rpriv = mlx5_eswitch_get_uplink_priv(esw, REP_ETH);
 +		return &uplink_rpriv->tc_ht;
 +	} else
@@ -40495,7 +40501,7 @@ index 8fad806..6228ba7 100644
 +
  #endif
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c b/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
-index ded27bb..4b2e524 100644
+index ded27bb..445075b 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
 @@ -32,10 +32,14 @@
@@ -41781,10 +41787,7 @@ index ded27bb..4b2e524 100644
  {
 -	struct mlx5_flow_rule *rule;
 +	u32 xored_actions = action1 ^ action2;
- 
--	list_for_each_entry(rule, &fte->node.children, node.list) {
--		if (mlx5_flow_dests_cmp(&rule->dest_attr, dest))
--			return rule;
++
 +	/* if one rule only wants to count, it's ok */
 +	if (action1 == MLX5_FLOW_CONTEXT_ACTION_COUNT ||
 +	    action2 == MLX5_FLOW_CONTEXT_ACTION_COUNT)
@@ -41809,9 +41812,11 @@ index ded27bb..4b2e524 100644
 +		mlx5_core_warn(get_dev(&fte->node),
 +			       "Found two FTEs with conflicting actions\n");
 +		return -EEXIST;
- 	}
--	return NULL;
-+
++	}
+ 
+-	list_for_each_entry(rule, &fte->node.children, node.list) {
+-		if (mlx5_flow_dests_cmp(&rule->dest_attr, dest))
+-			return rule;
 +	if ((flow_act->flags & FLOW_ACT_HAS_TAG) &&
 +	    fte->action.flow_tag != flow_act->flow_tag) {
 +		mlx5_core_warn(get_dev(&fte->node),
@@ -41819,7 +41824,8 @@ index ded27bb..4b2e524 100644
 +			       fte->action.flow_tag,
 +			       flow_act->flow_tag);
 +		return -EEXIST;
-+	}
+ 	}
+-	return NULL;
 +
 +	return 0;
  }
@@ -41875,8 +41881,16 @@ index ded27bb..4b2e524 100644
 -	if (fg->num_ftes >= fg->max_ftes) {
 -		handle = ERR_PTR(-ENOSPC);
 -		goto unlock_fg;
--	}
--
++	old_action = fte->action.action;
++	fte->action.action |= flow_act->action;
++	handle = add_rule_fte(fte, fg, dest, dest_num,
++			      old_action != flow_act->action);
++	if (IS_ERR(handle)) {
++		fte->action.action = old_action;
++		return handle;
+ 	}
++	trace_mlx5_fs_set_fte(fte, false);
+ 
 -	fte = create_fte(fg, match_value, flow_act, &prev);
 -	if (IS_ERR(fte)) {
 -		handle = (void *)fte;
@@ -41885,19 +41899,12 @@ index ded27bb..4b2e524 100644
 -	tree_init_node(&fte->node, 0, del_fte);
 -	nested_lock_ref_node(&fte->node, FS_MUTEX_CHILD);
 -	handle = add_rule_fte(fte, fg, dest, dest_num, false);
-+	old_action = fte->action.action;
-+	fte->action.action |= flow_act->action;
-+	handle = add_rule_fte(fte, fg, dest, dest_num,
-+			      old_action != flow_act->action);
- 	if (IS_ERR(handle)) {
+-	if (IS_ERR(handle)) {
 -		unlock_ref_node(&fte->node);
 -		kfree(fte);
 -		goto unlock_fg;
-+		fte->action.action = old_action;
-+		return handle;
- 	}
-+	trace_mlx5_fs_set_fte(fte, false);
- 
+-	}
+-
 -	fg->num_ftes++;
 -
 -	tree_add_node(&fte->node, &fg->node);
@@ -42060,33 +42067,33 @@ index ded27bb..4b2e524 100644
 +			if (!fte_tmp)
 +				continue;
 +			if (fte_tmp->handle != spec->handle) {
-+				rule = ERR_PTR(-EINVAL);
 +				up_write_ref_node(&fte_tmp->node);
 +				tree_put_node(&fte_tmp->node);
 +				kmem_cache_free(steering->ftes_cache, fte);
-+				return rule;
-+			} else {
-+				up_write_ref_node(&fte_tmp->node);
-+				tree_put_node(&fte_tmp->node);
++				return ERR_PTR(-EEXIST);
 +			}
-+		}
-+	else
-+		/* Try to find a fg that already contains a matching fte */
-+		list_for_each_entry(iter, match_head, list) {
-+			struct fs_fte *fte_tmp;
-+
-+			g = iter->g;
-+			fte_tmp = lookup_fte_locked(g, spec->match_value, take_write);
-+			if (!fte_tmp)
-+				continue;
-+			rule = add_rule_fg(g, spec->match_value,
-+					   flow_act, dest, dest_num, fte_tmp);
 +			up_write_ref_node(&fte_tmp->node);
 +			tree_put_node(&fte_tmp->node);
-+			kmem_cache_free(steering->ftes_cache, fte);
-+			return rule;
++			goto skip_search;
 +		}
 +
++	/* Try to find a fg that already contains a matching fte */
++	list_for_each_entry(iter, match_head, list) {
++		struct fs_fte *fte_tmp;
++
++		g = iter->g;
++		fte_tmp = lookup_fte_locked(g, spec->match_value, take_write);
++		if (!fte_tmp)
++			continue;
++		rule = add_rule_fg(g, spec->match_value,
++				   flow_act, dest, dest_num, fte_tmp);
++		up_write_ref_node(&fte_tmp->node);
++		tree_put_node(&fte_tmp->node);
++		kmem_cache_free(steering->ftes_cache, fte);
++		return rule;
++	}
++
++skip_search:
 +	/* No group with matching fte found, or we skipped the search.
 +	 * Try to add a new fte to any matching fg.
 +	 */
@@ -42552,13 +42559,14 @@ index ded27bb..4b2e524 100644
  
 -void mlx5_cleanup_fs(struct mlx5_core_dev *dev)
 +static void cleanup_egress_acls_root_ns(struct mlx5_core_dev *dev)
-+{
-+	struct mlx5_flow_steering *steering = dev->priv.steering;
+ {
+ 	struct mlx5_flow_steering *steering = dev->priv.steering;
 +	int i;
-+
+ 
+-	if (MLX5_CAP_GEN(dev, port_type) != MLX5_CAP_PORT_TYPE_ETH)
 +	if (!steering->esw_egress_root_ns)
-+		return;
-+
+ 		return;
+ 
 +	for (i = 0; i < MLX5_TOTAL_VPORTS(dev); i++)
 +		cleanup_root_ns(steering->esw_egress_root_ns[i]);
 +
@@ -42566,14 +42574,13 @@ index ded27bb..4b2e524 100644
 +}
 +
 +static void cleanup_ingress_acls_root_ns(struct mlx5_core_dev *dev)
- {
- 	struct mlx5_flow_steering *steering = dev->priv.steering;
++{
++	struct mlx5_flow_steering *steering = dev->priv.steering;
 +	int i;
- 
--	if (MLX5_CAP_GEN(dev, port_type) != MLX5_CAP_PORT_TYPE_ETH)
++
 +	if (!steering->esw_ingress_root_ns)
- 		return;
- 
++		return;
++
 +	for (i = 0; i < MLX5_TOTAL_VPORTS(dev); i++)
 +		cleanup_root_ns(steering->esw_ingress_root_ns[i]);
 +
@@ -47306,7 +47313,7 @@ index 0000000..8fb0eb0
 +
 +#endif /* __MLX5_VXLAN_H__ */
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-index ddd2635..a78790f 100644
+index ddd2635..40f7e96 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
 @@ -47,18 +47,25 @@
@@ -47712,7 +47719,7 @@ index ddd2635..a78790f 100644
  
  err_eq_cleanup:
  	mlx5_eq_cleanup(dev);
-@@ -951,18 +1037,28 @@ out:
+@@ -951,18 +1037,24 @@ out:
  
  static void mlx5_cleanup_once(struct mlx5_core_dev *dev)
  {
@@ -47735,16 +47742,12 @@ index ddd2635..a78790f 100644
  	mlx5_eq_cleanup(dev);
  }
  
-+char *jd_version = "1.3";
-+/*
-+ * branch jd-1
-+ * commit: 70bb334378e9627f5d101e7911559e091d19b156
-+ */
++char *jd_version = "1.5";	/* branch jd-1 */
 +
  static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  			 bool boot)
  {
-@@ -978,12 +1074,26 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -978,12 +1070,26 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  
  	dev_info(&pdev->dev, "firmware version: %d.%d.%d\n", fw_rev_maj(dev),
  		 fw_rev_min(dev), fw_rev_sub(dev));
@@ -47771,7 +47774,7 @@ index ddd2635..a78790f 100644
  	err = mlx5_cmd_init(dev);
  	if (err) {
  		dev_err(&pdev->dev, "Failed initializing command interface, aborting\n");
-@@ -994,7 +1104,7 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -994,7 +1100,7 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  	if (err) {
  		dev_err(&dev->pdev->dev, "Firmware over %d MS in initializing state, aborting\n",
  			FW_INIT_TIMEOUT_MILI);
@@ -47780,7 +47783,7 @@ index ddd2635..a78790f 100644
  	}
  
  	err = mlx5_core_enable_hca(dev, 0);
-@@ -1045,7 +1155,7 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1045,7 +1151,7 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		goto reclaim_boot_pages;
  	}
  
@@ -47789,7 +47792,7 @@ index ddd2635..a78790f 100644
  	if (err) {
  		dev_err(&pdev->dev, "init hca failed\n");
  		goto err_pagealloc_stop;
-@@ -1061,33 +1171,43 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1061,33 +1167,43 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		goto err_stop_poll;
  	}
  
@@ -47842,7 +47845,7 @@ index ddd2635..a78790f 100644
  	}
  
  	err = mlx5_irq_set_affinity_hints(dev);
-@@ -1096,15 +1216,29 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1096,15 +1212,29 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		goto err_affinity_hints;
  	}
  
@@ -47875,7 +47878,7 @@ index ddd2635..a78790f 100644
  
  	err = mlx5_sriov_attach(dev);
  	if (err) {
-@@ -1122,7 +1256,6 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1122,7 +1252,6 @@ static int mlx5_load_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		}
  	}
  
@@ -47883,7 +47886,7 @@ index ddd2635..a78790f 100644
  	set_bit(MLX5_INTERFACE_STATE_UP, &dev->intf_state);
  out:
  	mutex_unlock(&dev->intf_state_mutex);
-@@ -1133,32 +1266,38 @@ err_reg_dev:
+@@ -1133,32 +1262,38 @@ err_reg_dev:
  	mlx5_sriov_detach(dev);
  
  err_sriov:
@@ -47930,7 +47933,7 @@ index ddd2635..a78790f 100644
  	if (mlx5_cmd_teardown_hca(dev)) {
  		dev_err(&dev->pdev->dev, "tear_down_hca failed, skip cleanup\n");
  		goto out_err;
-@@ -1189,10 +1328,10 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1189,10 +1324,10 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  	int err = 0;
  
  	if (cleanup)
@@ -47943,7 +47946,7 @@ index ddd2635..a78790f 100644
  		dev_warn(&dev->pdev->dev, "%s: interface is down, NOP\n",
  			 __func__);
  		if (cleanup)
-@@ -1200,22 +1339,24 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1200,22 +1335,24 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  		goto out;
  	}
  
@@ -47974,7 +47977,7 @@ index ddd2635..a78790f 100644
  	err = mlx5_cmd_teardown_hca(dev);
  	if (err) {
  		dev_err(&dev->pdev->dev, "tear_down_hca failed, skip cleanup\n");
-@@ -1227,8 +1368,6 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
+@@ -1227,8 +1364,6 @@ static int mlx5_unload_one(struct mlx5_core_dev *dev, struct mlx5_priv *priv,
  	mlx5_cmd_cleanup(dev);
  
  out:
@@ -47983,7 +47986,7 @@ index ddd2635..a78790f 100644
  	mutex_unlock(&dev->intf_state_mutex);
  	return err;
  }
-@@ -1240,11 +1379,13 @@ struct mlx5_core_event_handler {
+@@ -1240,11 +1375,13 @@ struct mlx5_core_event_handler {
  };
  
  static const struct devlink_ops mlx5_devlink_ops = {
@@ -47998,7 +48001,7 @@ index ddd2635..a78790f 100644
  #endif
  };
  
-@@ -1277,10 +1418,27 @@ static int init_one(struct pci_dev *pdev,
+@@ -1277,10 +1414,27 @@ static int init_one(struct pci_dev *pdev,
  	spin_lock_init(&priv->ctx_lock);
  	mutex_init(&dev->pci_status_mutex);
  	mutex_init(&dev->intf_state_mutex);
@@ -48027,7 +48030,7 @@ index ddd2635..a78790f 100644
  	}
  
  	err = mlx5_health_init(dev);
-@@ -1297,9 +1455,7 @@ static int init_one(struct pci_dev *pdev,
+@@ -1297,9 +1451,7 @@ static int init_one(struct pci_dev *pdev,
  		goto clean_health;
  	}
  
@@ -48038,7 +48041,7 @@ index ddd2635..a78790f 100644
  
  	err = devlink_register(devlink, &pdev->dev);
  	if (err)
-@@ -1315,8 +1471,11 @@ clean_health:
+@@ -1315,8 +1467,11 @@ clean_health:
  	mlx5_health_cleanup(dev);
  close_pci:
  	mlx5_pci_close(dev, priv);
@@ -48051,7 +48054,7 @@ index ddd2635..a78790f 100644
  	devlink_free(devlink);
  
  	return err;
-@@ -1340,7 +1499,9 @@ static void remove_one(struct pci_dev *pdev)
+@@ -1340,7 +1495,9 @@ static void remove_one(struct pci_dev *pdev)
  	mlx5_pagealloc_cleanup(dev);
  	mlx5_health_cleanup(dev);
  	mlx5_pci_close(dev, priv);
@@ -48062,7 +48065,7 @@ index ddd2635..a78790f 100644
  	devlink_free(devlink);
  }
  
-@@ -1352,7 +1513,7 @@ static pci_ers_result_t mlx5_pci_err_detected(struct pci_dev *pdev,
+@@ -1352,7 +1509,7 @@ static pci_ers_result_t mlx5_pci_err_detected(struct pci_dev *pdev,
  
  	dev_info(&pdev->dev, "%s was called\n", __func__);
  
@@ -48071,7 +48074,7 @@ index ddd2635..a78790f 100644
  	mlx5_unload_one(dev, priv, false);
  	/* In case of kernel call drain the health wq */
  	if (state) {
-@@ -1439,29 +1600,74 @@ static const struct pci_error_handlers mlx5_err_handler = {
+@@ -1439,29 +1596,74 @@ static const struct pci_error_handlers mlx5_err_handler = {
  	.resume		= mlx5_pci_resume
  };
  
@@ -48154,7 +48157,7 @@ index ddd2635..a78790f 100644
  	{ 0, }
  };
  
-@@ -1504,7 +1710,10 @@ static int __init init(void)
+@@ -1504,7 +1706,10 @@ static int __init init(void)
  {
  	int err;
  
@@ -63774,7 +63777,7 @@ index 3e34b7d..3e14b44 100644
  
  #endif /* _UAPI__LINUX_NETLINK_H */
 diff --git a/include/uapi/linux/pkt_cls.h b/include/uapi/linux/pkt_cls.h
-index 0d022fe..3523c84 100644
+index 0d022fe..4ed37c6 100644
 --- a/include/uapi/linux/pkt_cls.h
 +++ b/include/uapi/linux/pkt_cls.h
 @@ -4,6 +4,7 @@
@@ -63890,7 +63893,7 @@ index 0d022fe..3523c84 100644
  
  /* Action type identifiers*/
  enum {
-@@ -501,6 +490,24 @@ enum {
+@@ -501,13 +490,66 @@ enum {
  	TCA_FLOWER_KEY_ARP_THA,		/* ETH_ALEN */
  	TCA_FLOWER_KEY_ARP_THA_MASK,	/* ETH_ALEN */
  
@@ -63907,17 +63910,51 @@ index 0d022fe..3523c84 100644
 +	TCA_FLOWER_KEY_IP_TTL,		/* u8 */
 +	TCA_FLOWER_KEY_IP_TTL_MASK,	/* u8 */
 +
++	TCA_FLOWER_KEY_CVLAN_ID,	/* be16 */
++	TCA_FLOWER_KEY_CVLAN_PRIO,	/* u8   */
++	TCA_FLOWER_KEY_CVLAN_ETH_TYPE,	/* be16 */
++
 +	TCA_FLOWER_KEY_ENC_IP_TOS,	/* u8 */
 +	TCA_FLOWER_KEY_ENC_IP_TOS_MASK,	/* u8 */
 +	TCA_FLOWER_KEY_ENC_IP_TTL,	/* u8 */
 +	TCA_FLOWER_KEY_ENC_IP_TTL_MASK,	/* u8 */
 +
++	TCA_FLOWER_KEY_ENC_OPTS,
++	TCA_FLOWER_KEY_ENC_OPTS_MASK,
++
  	__TCA_FLOWER_MAX,
  };
  
-@@ -508,6 +515,7 @@ enum {
+ #define TCA_FLOWER_MAX (__TCA_FLOWER_MAX - 1)
  
  enum {
++	TCA_FLOWER_KEY_ENC_OPTS_UNSPEC,
++	TCA_FLOWER_KEY_ENC_OPTS_GENEVE, /* Nested
++					 * TCA_FLOWER_KEY_ENC_OPT_GENEVE_
++					 * attributes
++					 */
++	__TCA_FLOWER_KEY_ENC_OPTS_MAX,
++};
++
++#define TCA_FLOWER_KEY_ENC_OPTS_MAX (__TCA_FLOWER_KEY_ENC_OPTS_MAX - 1)
++
++enum {
++	TCA_FLOWER_KEY_ENC_OPT_GENEVE_UNSPEC,
++	TCA_FLOWER_KEY_ENC_OPT_GENEVE_CLASS,            /* u16 */
++	TCA_FLOWER_KEY_ENC_OPT_GENEVE_TYPE,             /* u8 */
++	TCA_FLOWER_KEY_ENC_OPT_GENEVE_DATA,             /* 4 to 128 bytes */
++
++	__TCA_FLOWER_KEY_ENC_OPT_GENEVE_MAX,
++};
++
++#define TCA_FLOWER_KEY_ENC_OPT_GENEVE_MAX \
++		(__TCA_FLOWER_KEY_ENC_OPT_GENEVE_MAX - 1)
++
++
++
++#define TCA_FLOWER_MAX (__TCA_FLOWER_MAX - 1)
++
++enum {
  	TCA_FLOWER_KEY_FLAGS_IS_FRAGMENT = (1 << 0),
 +	TCA_FLOWER_KEY_FLAGS_FRAG_IS_FIRST = (1 << 1),
  };
@@ -64386,19 +64423,53 @@ index 0000000..10fc07d
 +
 +#endif
 diff --git a/include/uapi/linux/tc_act/tc_tunnel_key.h b/include/uapi/linux/tc_act/tc_tunnel_key.h
-index 84ea55e..edb9688 100644
+index 84ea55e..be384d6 100644
 --- a/include/uapi/linux/tc_act/tc_tunnel_key.h
 +++ b/include/uapi/linux/tc_act/tc_tunnel_key.h
-@@ -34,6 +34,9 @@ enum {
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
+ /*
+  * Copyright (c) 2016, Amir Vadai <amir@vadai.me>
+  * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
+@@ -34,9 +35,38 @@ enum {
  	TCA_TUNNEL_KEY_ENC_KEY_ID,	/* be64 */
  	TCA_TUNNEL_KEY_PAD,
  	TCA_TUNNEL_KEY_ENC_DST_PORT,	/* be16 */
 +	TCA_TUNNEL_KEY_NO_CSUM,		/* u8 */
++	TCA_TUNNEL_KEY_ENC_OPTS,	/* Nested TCA_TUNNEL_KEY_ENC_OPTS_
++					 * attributes
++					 */
 +	TCA_TUNNEL_KEY_ENC_TOS,		/* u8 */
 +	TCA_TUNNEL_KEY_ENC_TTL,		/* u8 */
  	__TCA_TUNNEL_KEY_MAX,
  };
  
+ #define TCA_TUNNEL_KEY_MAX (__TCA_TUNNEL_KEY_MAX - 1)
+ 
++enum {
++	TCA_TUNNEL_KEY_ENC_OPTS_UNSPEC,
++	TCA_TUNNEL_KEY_ENC_OPTS_GENEVE,		/* Nested
++						 * TCA_TUNNEL_KEY_ENC_OPTS_
++						 * attributes
++						 */
++	__TCA_TUNNEL_KEY_ENC_OPTS_MAX,
++};
++
++#define TCA_TUNNEL_KEY_ENC_OPTS_MAX (__TCA_TUNNEL_KEY_ENC_OPTS_MAX - 1)
++
++enum {
++	TCA_TUNNEL_KEY_ENC_OPT_GENEVE_UNSPEC,
++	TCA_TUNNEL_KEY_ENC_OPT_GENEVE_CLASS,		/* be16 */
++	TCA_TUNNEL_KEY_ENC_OPT_GENEVE_TYPE,		/* u8 */
++	TCA_TUNNEL_KEY_ENC_OPT_GENEVE_DATA,		/* 4 to 128 bytes */
++
++	__TCA_TUNNEL_KEY_ENC_OPT_GENEVE_MAX,
++};
++
++#define TCA_TUNNEL_KEY_ENC_OPT_GENEVE_MAX \
++	(__TCA_TUNNEL_KEY_ENC_OPT_GENEVE_MAX - 1)
++
+ #endif
 diff --git a/include/uapi/linux/tc_act/tc_vlan.h b/include/uapi/linux/tc_act/tc_vlan.h
 index be72b6e..bddb272 100644
 --- a/include/uapi/linux/tc_act/tc_vlan.h
